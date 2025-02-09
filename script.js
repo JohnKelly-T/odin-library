@@ -2,7 +2,7 @@ const myLibrary = [];
 
 const itemsContainer = document.querySelector(".items-container");
 
-const pageIconPath = "./img/placeholder.png";
+const pageIconPath = "./img/page-icon.png";
 
 function Book(title, author, pages, isRead) {
     this.title = title;
@@ -71,14 +71,25 @@ function createCard(book) {
 
     cardDetails.appendChild(readStatusLabel);
 
+    // create remove button
+    const removeButton = document.createElement("button");
+    removeButton.classList.add("remove-button");
+
+    // create edit button
+    const editButton = document.createElement("button");
+    editButton.classList.add("edit-button");
+
+    card.appendChild(editButton);
+    card.appendChild(removeButton);
+
     itemsContainer.appendChild(card);
 
     return card;
 }
 
 addBookToLibrary("Book1", "Author1", 365, true);
-addBookToLibrary("Book2", "Author2", 365, false);
-addBookToLibrary("Book3", "Author3", 365, true);
+addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
+addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
 addBookToLibrary("Book4", "Author4", 365, false);
 addBookToLibrary("Book5", "Author5", 365, true);
 
