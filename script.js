@@ -42,31 +42,32 @@ function createCard(book) {
     cardInfo.appendChild(bookAuthor);
 
     // create book details wrapper 
-    const bookDetails = document.createElement("div");
-    bookDetails.classList.add("book-details");
-    card.appendChild(bookDetails);
+    const cardDetails = document.createElement("div");
+    cardDetails.classList.add("card-details");
+    card.appendChild(cardDetails);
 
     // create book details elements
     const pageCount = document.createElement("span");
+    pageCount.classList.add("book-pages");
     pageCount.textContent = book.pages.toString();
-    bookDetails.appendChild(pageCount);
+    cardDetails.appendChild(pageCount);
 
     const pageIcon = document.createElement("img");
     pageIcon.setAttribute("src", pageIconPath);
     pageIcon.classList.add("page-icon");
     pageIcon.alt = "page icon";
-    bookDetails.appendChild(pageIcon);
+    cardDetails.appendChild(pageIcon);
 
     const readStatusLabel = document.createElement("label");
     readStatusLabel.textContent = "Read";
     
     const readStatus = document.createElement("input");
     readStatus.type = "checkbox";
-    readStatus.name = "read-status";
+    readStatus.name = "book-read-status";
     readStatus.checked = book.isRead;
     readStatusLabel.appendChild(readStatus);
 
-    bookDetails.appendChild(readStatusLabel);
+    cardDetails.appendChild(readStatusLabel);
 
     itemsContainer.appendChild(card);
 
