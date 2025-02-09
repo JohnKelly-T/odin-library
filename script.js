@@ -33,8 +33,10 @@ function createCard(book) {
 
     // create span elements
     const bookTitle = document.createElement("span");
+    bookTitle.classList.add("book-title");
     bookTitle.textContent = book.title;
     const bookAuthor = document.createElement("span");
+    bookAuthor.classList.add("book-author")
     bookAuthor.textContent = "by " + book.author;
 
     // append span elements to card info
