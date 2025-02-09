@@ -11,6 +11,48 @@
   </head>
 
   <body>
-    
+    <div class="main-container">
+      <div class="logo-container">
+        <img src="./img/placeholder.png" alt="site-logo" class="logo">
+        <span class="site-name">Library</span>
+      </div>
+
+      <div class="options-container">
+        <select name="filter-options" id="filter-options">
+          <option value="All">All</option>
+          <option value="Read">Read</option>
+          <option value="Not Read">Not Read</option>
+        </select>
+
+        <div class="display-mode-buttons">
+          <button id="card-view"></button>
+          <button id="list-view"></button>
+        </div>
+
+        <select name="sort-optoins" id="sort-options">
+          <option value="date-added">Date added</option>
+          <option value="title">Title</option>
+          <option value="page-count">Page count</option>
+        </select>
+
+      </div>
+
+      <div class="items-container">
+        <div class="card">
+          <span class="book-title">Book Title Example</span>
+          <span>by Author Name</span>
+
+          <div class="book-details">
+            <span class="page-count">365</span>
+            <img src="./img/placeholder.png" alt="page icon" class="page-icon">
+
+            <label for=""></label>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="add-button"></button>
   </body>
 </html>
