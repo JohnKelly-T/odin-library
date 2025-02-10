@@ -19,17 +19,23 @@ const errorDiv = document.querySelector("#error-div");
 const pageIconPath = "./img/page-icon.png";
 
 let id = 0;
-let displayMode = "not-read";
+let displayMode = "all";
 
 document.addEventListener("DOMContentLoaded", function() {
     const storedLibrary = localStorage.getItem('library');
+    const storedDisplayMode = localStorage.getItem('displayMode');
+
+    if (storedDisplayMode) {
+        displayMode = storedDisplayMode;
+        filterOptions.value = storedDisplayMode;
+    }
 
     if (storedLibrary) {
         // Convert back to Map
         myLibrary = new Map(JSON.parse(storedLibrary));
-        console.log(myLibrary);
         displayBooks();
     }
+
 });
 
 function Book(title, author, pages, isRead, datetime) {
@@ -101,6 +107,7 @@ function createCard(book, bookId) {
 
     readStatus.addEventListener("change", () => {
         book.isRead = readStatus.checked;
+        saveToLocalStorage();
         displayBooks();
     });
 
@@ -183,6 +190,7 @@ function resetDialogForm() {
 
 function saveToLocalStorage() {
     localStorage.setItem('library', JSON.stringify(Array.from(myLibrary)));
+    localStorage.setItem('displayMode', displayMode);
 }
 
 form.addEventListener("submit", (e) => {
@@ -234,6 +242,7 @@ form.addEventListener("submit", (e) => {
 
 filterOptions.addEventListener("change", () => {
     displayMode = filterOptions.value;
+    saveToLocalStorage();
     displayBooks();
 });
 
