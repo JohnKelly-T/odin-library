@@ -20,13 +20,13 @@ const errorDiv = document.querySelector("#error-div");
 const pageIconPath = "./img/page-icon.png";
 
 let idCount = 0;
-let displayMode = "all";
+let filterMode = "all";
 let sortMode = "oldest";
 
 document.addEventListener("DOMContentLoaded", function() {
     const storedIdCount = localStorage.getItem('idCount');
     const storedLibrary = localStorage.getItem('library');
-    const storedDisplayMode = localStorage.getItem('displayMode');
+    const storedfilterMode = localStorage.getItem('filterMode');
 
     if (storedIdCount) {
         idCount = storedIdCount;
@@ -165,11 +165,11 @@ function displayBooks() {
 
     for (let [key, value] of myLibrary) {
 
-        if (displayMode == "read") {
+        if (filterMode == "read") {
             if (!value.isRead) {
                 continue;
             }
-        } else if (displayMode == "not-read") {
+        } else if (filterMode == "not-read") {
             if (value.isRead) {
                 continue;
             }
@@ -274,7 +274,7 @@ form.addEventListener("submit", (e) => {
 });
 
 filterOptions.addEventListener("change", () => {
-    displayMode = filterOptions.value;
+    filterMode = filterOptions.value;
     displayBooks();
 });
 
