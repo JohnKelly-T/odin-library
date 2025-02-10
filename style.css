@@ -1,5 +1,6 @@
 :root {
     --primary-color: 85, 0, 0;
+    --green: rgb(38, 176, 38);
     --text-color: #5b5b5b;
 }
 
@@ -20,7 +21,7 @@ button:hover {
     cursor: pointer;
 }
 
-select {
+select, input[type="number"] {
     background-color: white;
     border: 1px solid rgb(195, 195, 195);
     border-radius: 5px;
@@ -163,7 +164,7 @@ select:focus, select:focus-visible {
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* Limit to 2 lines */
+    -webkit-line-clamp: 4; 
     line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -191,7 +192,7 @@ select:focus, select:focus-visible {
 }
 
 .card label:has(input:checked) {
-    color: rgb(6, 156, 6);
+    color: var(--green);
 }
 
 .card input {
@@ -214,7 +215,7 @@ select:focus, select:focus-visible {
     height: 0.65em;
     transform: scale(0);
     transition: 60ms transform ease-in-out;
-    box-shadow: inset 1em 1em rgb(6, 156, 6);
+    box-shadow: inset 1em 1em var(--green);
     transform-origin: bottom left;
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
@@ -224,7 +225,7 @@ select:focus, select:focus-visible {
 }
 
 .card input:checked {
-    border: 2px solid rgb(6, 156, 6);
+    border: 2px solid var(--green);
 }
 
 .page-icon {
@@ -295,4 +296,103 @@ select:focus, select:focus-visible {
 
 #add-button:hover {
     filter: brightness(120%);
+}
+
+dialog {
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    outline: none;
+    border: none;
+    background: none;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    width: min(400px, 80vw);
+    aspect-ratio: 2 / 3;
+    padding: 2rem;
+
+    border-radius: 5px;
+
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+form label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+form label:first-of-type {
+    margin-bottom: 3rem;
+}
+
+.modal-action {
+    align-self: center;
+    font-weight: bold;
+}
+
+.book-title-input, .book-author-input {
+    border-bottom: 1px solid rgb(var(--primary-color), 0.8);
+    cursor: text;
+    overflow: auto;
+    font-size: 2rem;
+    font-weight: 600;
+    overflow: auto;
+}
+
+.book-title-input {
+    margin-top: 1rem;
+}
+
+.book-author-input{
+    width: 100%;
+    font-size: 1rem;
+}
+
+.book-title-input:focus, .book-author-input:focus {
+    outline: none;
+}
+
+.book-title-input:empty:not(:focus):before, 
+.book-author-input:empty:not(:focus):before,
+.book-title-input:focus:empty:before, 
+.book-author-input:focus:empty:before {
+    content: attr(data-text);
+    color: rgb(157, 157, 157);
+    font-style: italic;
+}
+
+.book-title:blank {
+    background: red;
+}
+
+.modal-buttons-container {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.modal-buttons-container > button {
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+}
+
+#cancel-button {
+    background-color: rgb(var(--primary-color), 0.9);
+}
+
+#save-button {
+    background-color: var(--green);
 }
