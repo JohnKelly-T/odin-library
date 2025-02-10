@@ -1,4 +1,4 @@
-const myLibrary = new Map();
+let myLibrary = new Map();
 
 const itemsContainer = document.querySelector(".items-container");
 const dialog = document.querySelector("dialog");
@@ -18,6 +18,17 @@ const errorDiv = document.querySelector("#error-div");
 const pageIconPath = "./img/page-icon.png";
 
 let id = 0;
+
+document.addEventListener("DOMContentLoaded", function() {
+    const storedLibrary = localStorage.getItem('library');
+
+    if (storedLibrary) {
+        // Convert back to Map
+        myLibrary = new Map(JSON.parse(storedLibrary));
+        console.log(myLibrary);
+        displayBooks();
+    }
+});
 
 function Book(title, author, pages, isRead, datetime) {
     this.title = title;
@@ -100,6 +111,7 @@ function createCard(book, bookId) {
         let bookId = Number(card.getAttribute("data-id"));
         myLibrary.delete(bookId);
         displayBooks();
+        saveToLocalStorage();
     });
 
     // create edit button
@@ -137,6 +149,26 @@ function displayBooks() {
     
         itemsContainer.appendChild(newCard);
     }
+}
+
+function addErrorMessage(message) {
+    let error = document.createElement("p");
+    error.classList.add("error-message");
+    error.textContent = message;
+    errorDiv.appendChild(error);
+}
+
+function resetDialogForm() {
+    dialog.setAttribute("card-id", null);
+    modalAction.textContent = "";
+    bookTitleInput.textContent = "";
+    bookAuthorInput.textContent = "";
+    errorDiv.innerHTML = "";
+    form.reset();
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('library', JSON.stringify(Array.from(myLibrary)));
 }
 
 form.addEventListener("submit", (e) => {
@@ -180,26 +212,11 @@ form.addEventListener("submit", (e) => {
         book.isRead = isRead;
     }
 
+    saveToLocalStorage();
     displayBooks();
     dialog.close();
     return true;
 });
-
-function addErrorMessage(message) {
-    let error = document.createElement("p");
-    error.classList.add("error-message");
-    error.textContent = message;
-    errorDiv.appendChild(error);
-}
-
-function resetDialogForm() {
-    dialog.setAttribute("card-id", null);
-    modalAction.textContent = "";
-    bookTitleInput.textContent = "";
-    bookAuthorInput.textContent = "";
-    errorDiv.innerHTML = "";
-    form.reset();
-}
 
 addButton.addEventListener("click", () => {
     resetDialogForm();
@@ -211,11 +228,3 @@ addButton.addEventListener("click", () => {
 modalCancelButton.addEventListener("click", () => {
     dialog.close();
 });
-
-addBookToLibrary("Book1", "Author1", 365, true);
-addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
-addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
-addBookToLibrary("Book4", "Author4", 365, false);
-addBookToLibrary("Book5", "Author5", 365, true);
-
-displayBooks();
