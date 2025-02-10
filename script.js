@@ -8,6 +8,7 @@ const modalSaveButton = document.querySelector("#save-button");
 
 const form = document.querySelector("form");
 
+const modalAction = document.querySelector(".modal-action");
 const bookTitleInput = document.querySelector("form .book-title-input");
 const bookAuthorInput = document.querySelector("form .book-author-input");
 const bookStatus = document.querySelector("form [name='book-status'");
@@ -18,11 +19,12 @@ const pageIconPath = "./img/page-icon.png";
 
 let id = 0;
 
-function Book(title, author, pages, isRead) {
+function Book(title, author, pages, isRead, datetime) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
+    this.datetime = datetime;
 
     this.info = () => {
         let isReadMessage = isRead ? "read" : "not read yet";
@@ -32,13 +34,14 @@ function Book(title, author, pages, isRead) {
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
-    myLibrary.set(id++, new Book(title, author, pages, isRead));
+    myLibrary.set(++id, new Book(title, author, pages, isRead, new Date()));
 }
 
-function createCard(book) {
+function createCard(book, bookId) {
     // create card element
     const card = document.createElement("div");
     card.classList.add("card");
+    card.setAttribute("data-id", bookId);
 
     // create card info wrapper and append to card
     const cardInfo = document.createElement("div");
@@ -83,15 +86,40 @@ function createCard(book) {
     readStatus.checked = book.isRead;
     readStatusLabel.appendChild(readStatus);
 
+    readStatus.addEventListener("change", () => {
+        book.isRead = readStatus.checked;
+    });
+
     cardDetails.appendChild(readStatusLabel);
 
     // create remove button
     const removeButton = document.createElement("button");
     removeButton.classList.add("remove-button");
 
+    removeButton.addEventListener("click", () => {
+        let bookId = Number(card.getAttribute("data-id"));
+        myLibrary.delete(bookId);
+        displayBooks();
+    });
+
     // create edit button
     const editButton = document.createElement("button");
     editButton.classList.add("edit-button");
+
+    editButton.addEventListener("click", () => {
+        let bookId = Number(card.getAttribute("data-id"));
+        let book = myLibrary.get(bookId);
+
+        modalAction.textContent = "Edit book";
+        bookTitleInput.textContent = book.title;
+        bookAuthorInput.textContent = book.author;
+        bookStatus.value = (book.isRead === true) ? "read" : "not-read";
+        bookPages.value = book.pages;
+
+        dialog.setAttribute("dialog-mode", "edit");
+        dialog.setAttribute("card-id", bookId);
+        dialog.showModal();
+    });
 
     card.appendChild(editButton);
     card.appendChild(removeButton);
@@ -105,7 +133,7 @@ function displayBooks() {
     itemsContainer.innerHTML = '';
 
     for (let [key, value] of myLibrary) {
-        let newCard = createCard(value);
+        let newCard = createCard(value, key);
     
         itemsContainer.appendChild(newCard);
     }
@@ -113,20 +141,34 @@ function displayBooks() {
 
 function validateForm(e) {
     let isRead = (bookStatus.value === "read") ? true : false;
-    addBookToLibrary(bookTitleInput.textContent, bookAuthorInput.textContent, bookPages.value, isRead);
-    // clear container
-    itemsContainer.innerHTML = '';
+
+    if (dialog.getAttribute("dialog-mode") === "add") {
+        addBookToLibrary(bookTitleInput.textContent, bookAuthorInput.textContent, bookPages.value, isRead);
+    } else {
+        let bookId = Number(dialog.getAttribute("card-id"));
+        let book = myLibrary.get(bookId);
+        book.title = bookTitleInput.textContent;
+        book.author = bookAuthorInput.textContent;
+        book.pages = bookPages.value;
+        book.isRead = isRead;
+    }
+
     displayBooks();
-
-    bookTitleInput.textContent = '';
-    bookAuthorInput.textContent = '';
-    form.reset();
-
     dialog.close();
     return true;
 }
 
+function resetDialogForm() {
+    dialog.setAttribute("card-id", null);
+    modalAction.textContent = "+ Add new book";
+    bookTitleInput.textContent = "";
+    bookAuthorInput.textContent = "";
+    form.reset();
+}
+
 addButton.addEventListener("click", () => {
+    resetDialogForm();
+    dialog.setAttribute("dialog-mode", "add");
     dialog.showModal();
 });
 
