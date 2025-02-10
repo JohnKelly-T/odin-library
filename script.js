@@ -7,6 +7,7 @@ const modalCancelButton = document.querySelector("#cancel-button");
 const modalSaveButton = document.querySelector("#save-button");
 
 const form = document.querySelector("form");
+const filterOptions = document.querySelector("select[name='filter-options']")
 
 const modalAction = document.querySelector(".modal-action");
 const bookTitleInput = document.querySelector("form .book-title-input");
@@ -18,6 +19,7 @@ const errorDiv = document.querySelector("#error-div");
 const pageIconPath = "./img/page-icon.png";
 
 let id = 0;
+let displayMode = "not-read";
 
 document.addEventListener("DOMContentLoaded", function() {
     const storedLibrary = localStorage.getItem('library');
@@ -99,6 +101,7 @@ function createCard(book, bookId) {
 
     readStatus.addEventListener("change", () => {
         book.isRead = readStatus.checked;
+        displayBooks();
     });
 
     cardDetails.appendChild(readStatusLabel);
@@ -144,9 +147,20 @@ function createCard(book, bookId) {
 function displayBooks() {
     itemsContainer.innerHTML = '';
 
+
     for (let [key, value] of myLibrary) {
+
+        if (displayMode == "read") {
+            if (!value.isRead) {
+                continue;
+            }
+        } else if (displayMode == "not-read") {
+            if (value.isRead) {
+                continue;
+            }
+        }
+
         let newCard = createCard(value, key);
-    
         itemsContainer.appendChild(newCard);
     }
 }
@@ -216,6 +230,11 @@ form.addEventListener("submit", (e) => {
     displayBooks();
     dialog.close();
     return true;
+});
+
+filterOptions.addEventListener("change", () => {
+    displayMode = filterOptions.value;
+    displayBooks();
 });
 
 addButton.addEventListener("click", () => {
