@@ -1,6 +1,18 @@
 const myLibrary = [];
 
 const itemsContainer = document.querySelector(".items-container");
+const dialog = document.querySelector("dialog");
+const addButton = document.querySelector("#add-button");
+const modalCancelButton = document.querySelector("#cancel-button");
+const modalSaveButton = document.querySelector("#save-button");
+
+const form = document.querySelector("form");
+
+const bookTitleInput = document.querySelector("form .book-title-input");
+const bookAuthorInput = document.querySelector("form .book-author-input");
+const bookStatus = document.querySelector("form [name='book-status'");
+const bookPages = document.querySelector("form [name='book-pages'");
+const errorDiv = document.querySelector("#error-div");
 
 const pageIconPath = "./img/page-icon.png";
 
@@ -87,14 +99,48 @@ function createCard(book) {
     return card;
 }
 
-addBookToLibrary("Book1", "Author1", 365, true);
-addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
-addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
-addBookToLibrary("Book4", "Author4", 365, false);
-addBookToLibrary("Book5", "Author5", 365, true);
+function displayBooks() {
+    itemsContainer.innerHTML = '';
 
-for (let i = 0; i < myLibrary.length; i++) {
-    let newCard = createCard(myLibrary[i]);
-
-    itemsContainer.appendChild(newCard);
+    for (let i = 0; i < myLibrary.length; i++) {
+        let newCard = createCard(myLibrary[i]);
+    
+        itemsContainer.appendChild(newCard);
+    }
 }
+
+function validateForm(e) {
+    let isRead = (bookStatus.value === "read") ? true : false;
+    addBookToLibrary(bookTitleInput.textContent, bookAuthorInput.textContent, bookPages.value, isRead);
+    // clear container
+    itemsContainer.innerHTML = '';
+    displayBooks();
+
+    bookTitleInput.textContent = '';
+    bookAuthorInput.textContent = '';
+    form.reset();
+
+    dialog.close();
+    return true;
+}
+
+addButton.addEventListener("click", () => {
+    dialog.showModal();
+});
+
+modalCancelButton.addEventListener("click", () => {
+    dialog.close();
+});
+
+dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) {
+        dialog.close();
+    }
+})
+
+// addBookToLibrary("Book1", "Author1", 365, true);
+// addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
+// addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
+// addBookToLibrary("Book4", "Author4", 365, false);
+// addBookToLibrary("Book5", "Author5", 365, true);
+

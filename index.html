@@ -67,7 +67,7 @@
     <button id="add-button"></button>
 
     <dialog id="add-dialog">
-      <form action="">
+      <form action="" onsubmit="event.preventDefault(); validateForm();">
         <span class="modal-action">+ Add new book</span>
 
         <input type="hidden" name="book-title" placeholder="Book Title">
@@ -81,32 +81,25 @@
 
         <label>
           number of pages:
-          <input type="number" name="book-pages" min="0">
-        </label>
-
-        <label>
-          pages read:
-          <input type="number" name="pages-read" min="0">
+          <input type="number" name="book-pages" min="1" placeholder="Pages">
         </label>
         
         <label>
           status:
           <select name="book-status">
-            <option value="read">Read</option>
-            <option value="not-read" selected>Not Read</option>
+            <option value="read" selected>Read</option>
+            <option value="not-read">Not Read</option>
           </select>
         </label>
+
+        <div id="error-div"></div>
 
         <div class="modal-buttons-container">
           <button type="button" id="cancel-button">cancel</button>
           <button type="submit" id="save-button">save</button>
         </div>
 
-        <div class="errors"></div>
-
       </form>
     </dialog>
-
-    
   </body>
 </html>
