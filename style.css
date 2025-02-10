@@ -233,5 +233,16 @@ select:focus {
     border: none;
     border-radius: 50%;
 
-    background-color: gray;
+    background: #5e1313;
+    box-shadow: inset -5px -5px 10px #3e0d0d,
+                inset 5px 5px 10px #7e1919;
+    background-image: url(./img/add.png);
+    background-size: 30%;
+    background-repeat: no-repeat;
+    background-position: center;
+    ;
+}
+
+#add-button:hover {
+    filter: brightness(120%);
 }
