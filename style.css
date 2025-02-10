@@ -396,3 +396,8 @@ form label:first-of-type {
 #save-button {
     background-color: var(--green);
 }
+
+.error-message {
+    font-style: italic;
+    color: rgb(248, 33, 33);
+}

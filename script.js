@@ -139,7 +139,34 @@ function displayBooks() {
     }
 }
 
-function validateForm(e) {
+form.addEventListener("submit", (e) => {
+    // prevent page reload
+    e.preventDefault();
+
+    errorDiv.innerHTML = "";
+
+    let isValid = true;
+
+    // validation 
+    if (bookTitleInput.textContent === "") {
+        isValid = false;
+        addErrorMessage("* Please enter the book's title");
+    }
+
+    if (bookAuthorInput.textContent === "") {
+        isValid = false;
+        addErrorMessage("* Please enter the book's author");
+    }
+
+    if (bookPages.value === "") {
+        isValid = false;
+        addErrorMessage("* Please enter the number of pages in the book");
+    }
+
+    if (!isValid) {
+        return false;
+    }
+
     let isRead = (bookStatus.value === "read") ? true : false;
 
     if (dialog.getAttribute("dialog-mode") === "add") {
@@ -156,18 +183,27 @@ function validateForm(e) {
     displayBooks();
     dialog.close();
     return true;
+});
+
+function addErrorMessage(message) {
+    let error = document.createElement("p");
+    error.classList.add("error-message");
+    error.textContent = message;
+    errorDiv.appendChild(error);
 }
 
 function resetDialogForm() {
     dialog.setAttribute("card-id", null);
-    modalAction.textContent = "+ Add new book";
+    modalAction.textContent = "";
     bookTitleInput.textContent = "";
     bookAuthorInput.textContent = "";
+    errorDiv.innerHTML = "";
     form.reset();
 }
 
 addButton.addEventListener("click", () => {
     resetDialogForm();
+    modalAction.textContent = "+ Add new book";
     dialog.setAttribute("dialog-mode", "add");
     dialog.showModal();
 });
@@ -176,15 +212,10 @@ modalCancelButton.addEventListener("click", () => {
     dialog.close();
 });
 
-dialog.addEventListener("click", (e) => {
-    if (e.target === dialog) {
-        dialog.close();
-    }
-})
+addBookToLibrary("Book1", "Author1", 365, true);
+addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
+addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
+addBookToLibrary("Book4", "Author4", 365, false);
+addBookToLibrary("Book5", "Author5", 365, true);
 
-// addBookToLibrary("Book1", "Author1", 365, true);
-// addBookToLibrary("Harry Potter and the Order of the Phoenix", "J.K. Rowling", 365, false);
-// addBookToLibrary("Lorem ipsum Dolo emet the quick brown fox jumps over the lazy dog", "Author3", 365, true);
-// addBookToLibrary("Book4", "Author4", 365, false);
-// addBookToLibrary("Book5", "Author5", 365, true);
-
+displayBooks();
