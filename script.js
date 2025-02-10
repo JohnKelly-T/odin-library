@@ -1,4 +1,4 @@
-const myLibrary = [];
+const myLibrary = new Map();
 
 const itemsContainer = document.querySelector(".items-container");
 const dialog = document.querySelector("dialog");
@@ -16,6 +16,8 @@ const errorDiv = document.querySelector("#error-div");
 
 const pageIconPath = "./img/page-icon.png";
 
+let id = 0;
+
 function Book(title, author, pages, isRead) {
     this.title = title;
     this.author = author;
@@ -30,7 +32,7 @@ function Book(title, author, pages, isRead) {
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
-    myLibrary.push(new Book(title, author, pages, isRead));
+    myLibrary.set(id++, new Book(title, author, pages, isRead));
 }
 
 function createCard(book) {
@@ -102,8 +104,8 @@ function createCard(book) {
 function displayBooks() {
     itemsContainer.innerHTML = '';
 
-    for (let i = 0; i < myLibrary.length; i++) {
-        let newCard = createCard(myLibrary[i]);
+    for (let [key, value] of myLibrary) {
+        let newCard = createCard(value);
     
         itemsContainer.appendChild(newCard);
     }
