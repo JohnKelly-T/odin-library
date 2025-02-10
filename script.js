@@ -7,7 +7,8 @@ const modalCancelButton = document.querySelector("#cancel-button");
 const modalSaveButton = document.querySelector("#save-button");
 
 const form = document.querySelector("form");
-const filterOptions = document.querySelector("select[name='filter-options']")
+const filterOptions = document.querySelector("#filter-options");
+const sortOptions = document.querySelector("#sort-options");
 
 const modalAction = document.querySelector(".modal-action");
 const bookTitleInput = document.querySelector("form .book-title-input");
@@ -18,32 +19,39 @@ const errorDiv = document.querySelector("#error-div");
 
 const pageIconPath = "./img/page-icon.png";
 
-let id = 0;
+let idCount = 0;
 let displayMode = "all";
+let sortMode = "oldest";
 
 document.addEventListener("DOMContentLoaded", function() {
+    const storedIdCount = localStorage.getItem('idCount');
     const storedLibrary = localStorage.getItem('library');
     const storedDisplayMode = localStorage.getItem('displayMode');
 
-    if (storedDisplayMode) {
-        displayMode = storedDisplayMode;
-        filterOptions.value = storedDisplayMode;
+    if (storedIdCount) {
+        idCount = storedIdCount;
     }
 
     if (storedLibrary) {
         // Convert back to Map
-        myLibrary = new Map(JSON.parse(storedLibrary));
+        myLibrary = new Map(
+            JSON.parse(storedLibrary).map(([key, value]) => [key, { ...value, dateAdded: new Date(value.dateAdded) }])
+        );
+        console.log(myLibrary);
         displayBooks();
     }
 
+    sortBooks();
+
+
 });
 
-function Book(title, author, pages, isRead, datetime) {
+function Book(title, author, pages, isRead, dateAdded) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
-    this.datetime = datetime;
+    this.dateAdded = dateAdded;
 
     this.info = () => {
         let isReadMessage = isRead ? "read" : "not read yet";
@@ -53,7 +61,7 @@ function Book(title, author, pages, isRead, datetime) {
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
-    myLibrary.set(++id, new Book(title, author, pages, isRead, new Date()));
+    myLibrary.set(++idCount, new Book(title, author, pages, isRead, new Date()));
 }
 
 function createCard(book, bookId) {
@@ -172,6 +180,31 @@ function displayBooks() {
     }
 }
 
+function sortBooks() {
+
+    if (sortMode === "oldest") {
+        myLibrary = new Map(
+            Array.from(myLibrary.entries()).sort((a, b) => a[1].dateAdded - b[1].dateAdded)
+        );
+    } else if (sortMode === "newest") {
+        myLibrary = new Map(
+            Array.from(myLibrary.entries()).sort((a, b) => b[1].dateAdded - a[1].dateAdded)
+        );
+    } else if (sortMode === "a-z") {
+        myLibrary = new Map(
+            Array.from(myLibrary.entries()).sort((a, b) => a[1].title.localeCompare(b[1].title))
+        );
+    } else if (sortMode === "z-a") {
+        myLibrary = new Map(
+            Array.from(myLibrary.entries()).sort((a, b) => b[1].title.localeCompare(a[1].title))
+        );
+    }
+
+
+
+    displayBooks();
+}
+
 function addErrorMessage(message) {
     let error = document.createElement("p");
     error.classList.add("error-message");
@@ -189,8 +222,8 @@ function resetDialogForm() {
 }
 
 function saveToLocalStorage() {
+    localStorage.setItem('idCount', idCount);
     localStorage.setItem('library', JSON.stringify(Array.from(myLibrary)));
-    localStorage.setItem('displayMode', displayMode);
 }
 
 form.addEventListener("submit", (e) => {
@@ -242,7 +275,12 @@ form.addEventListener("submit", (e) => {
 
 filterOptions.addEventListener("change", () => {
     displayMode = filterOptions.value;
-    saveToLocalStorage();
+    displayBooks();
+});
+
+sortOptions.addEventListener("change", () => {
+    sortMode = sortOptions.value;
+    sortBooks();
     displayBooks();
 });
 
