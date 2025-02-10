@@ -31,10 +31,11 @@ select {
     font-size: inherit;
     cursor: inherit;
     line-height: inherit;
+    outline: none;
 }
 
-select:focus {
-    border: 1px solid gray;
+select:focus, select:focus-visible {
+    border: 1px solid rgb(var(--primary-color), 0.8);
 }
 
 .main-container {
