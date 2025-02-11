@@ -206,6 +206,10 @@ function createTableRow(book, bookId) {
     const removeButton = document.createElement("button");
     removeButton.classList.add("table-remove-button");
 
+    deleteCell.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
     removeButton.addEventListener("click", () => {
         let bookId = Number(trow.getAttribute("data-id"));
         myLibrary.delete(bookId);
