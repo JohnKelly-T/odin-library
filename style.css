@@ -115,12 +115,14 @@ select:focus, select:focus-visible {
     background-image: url(./img/list-view.png);
 }
 
+#items-container {
+    padding-bottom: 2rem;
+}
+
 .card-view-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 3rem;
-
-    padding-bottom: 2rem;
 }
 
 .card {
@@ -234,11 +236,6 @@ input[type="checkbox"]:checked::before {
     aspect-ratio: 1;
 }
 
-/* 
-.card:hover .card-options-container {
-    display: flex;
-} */
-
 .remove-button, .edit-button {
     position: absolute;
     display: none;
@@ -286,12 +283,12 @@ input[type="checkbox"]:checked::before {
 
     background: #5e1313;
     box-shadow: inset -5px -5px 10px #3e0d0d,
-                inset 5px 5px 10px #7e1919;
+                inset 5px 5px 10px #7e1919,
+                4px 4px 20px rgba(0, 0, 0, 0.25);
     background-image: url(./img/add.png);
     background-size: 30%;
     background-repeat: no-repeat;
     background-position: center;
-    ;
 }
 
 #add-button:hover {
@@ -454,3 +451,55 @@ td:last-child {
 td {
     padding: 1.5rem 1rem;
 }
+
+@media only screen and (max-width: 564px) { 
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+}
+
+@media only screen and (max-width: 900px) { 
+    .main-container {
+        width: 80vw;
+    }
+
+    .options-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .options-container select {
+        width: 100%;
+    }
+
+    .display-mode-buttons-container {
+        order: 3;
+    }
+
+    .display-mode-buttons-container > button{
+       height: 3rem;
+    }
+
+    #add-button {
+        box-shadow: inset -5px -5px 10px #3e0d0d,
+        inset 5px 5px 10px #7e1919,
+        4px 4px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    #items-container {
+        padding-bottom: 20vh;
+    }
+}
+
+/* @media (min-width: 900px) { 
+    .card-view-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 3rem;
+    
+        padding-bottom: 2rem;
+    }
+} */

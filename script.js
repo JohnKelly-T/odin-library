@@ -213,7 +213,7 @@ function createTableRow(book, bookId) {
     trow.appendChild(deleteCell);
 
     trow.addEventListener("click", (e) => {
-        if (e.target !== trow) {
+        if (e.target === readStatus || e.target === deleteCell) {
             return;
         }
         let bookId = Number(trow.getAttribute("data-id"));
