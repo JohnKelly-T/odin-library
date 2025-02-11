@@ -10,6 +10,9 @@ const form = document.querySelector("form");
 const filterOptions = document.querySelector("#filter-options");
 const sortOptions = document.querySelector("#sort-options");
 
+const cardViewButton = document.querySelector("#card-view");
+const listViewButton = document.querySelector("#list-view");
+
 const modalAction = document.querySelector(".modal-action");
 const bookTitleInput = document.querySelector("form .book-title-input");
 const bookAuthorInput = document.querySelector("form .book-author-input");
@@ -22,7 +25,7 @@ const pageIconPath = "./img/page-icon.png";
 let idCount = 0;
 let filterMode = "all";
 let sortMode = "oldest";
-let displayMode = "table";
+let displayMode = "card";
 
 document.addEventListener("DOMContentLoaded", function() {
     const storedIdCount = localStorage.getItem('idCount');
@@ -252,8 +255,8 @@ function createTable() {
 function displayBooks() {
     itemsContainer.innerHTML = '';
 
-    if (displayMode === "grid") {
-        itemsContainer.classList.add("grid-view");
+    if (displayMode === "card") {
+        itemsContainer.classList.add("card-view-container");
 
         for (let [key, value] of myLibrary) {
 
@@ -272,8 +275,8 @@ function displayBooks() {
         }
     }
 
-    if (displayMode === "table") {
-        itemsContainer.classList.remove("grid-view");
+    if (displayMode === "list") {
+        itemsContainer.classList.remove("card-view-container");
         let table = createTable();
 
         for (let [key, value] of myLibrary) {
@@ -315,8 +318,6 @@ function sortBooks() {
             Array.from(myLibrary.entries()).sort((a, b) => b[1].title.localeCompare(a[1].title))
         );
     }
-
-
 
     displayBooks();
 }
@@ -409,4 +410,18 @@ addButton.addEventListener("click", () => {
 
 modalCancelButton.addEventListener("click", () => {
     dialog.close();
+});
+
+cardViewButton.addEventListener("click", () => {
+    displayMode = "card";
+    itemsContainer.classList.add("card-view-container");
+
+    displayBooks();
+});
+
+listViewButton.addEventListener("click", () => {
+    displayMode = "list";
+    itemsContainer.classList.remove("card-view-container");
+
+    displayBooks();
 });
