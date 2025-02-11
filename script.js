@@ -43,6 +43,10 @@ document.addEventListener("DOMContentLoaded", function() {
         );
         console.log(myLibrary);
         
+    } else {
+        addBookToLibrary("Clean Code", "Robert C. Martin", 464, false);
+        addBookToLibrary("The Pragmatic Programmer", "Andrew Hunt & David Thomas", 352, false);
+        addBookToLibrary("Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", 395, false);
     }
 
     displayBooks();
@@ -99,7 +103,7 @@ function createCard(book, bookId) {
     // create book details elements
     const pageCount = document.createElement("span");
     pageCount.classList.add("book-pages");
-    pageCount.textContent = book.pages.toString();
+    pageCount.textContent = book.pages;
     cardDetails.appendChild(pageCount);
 
     const pageIcon = document.createElement("img");
