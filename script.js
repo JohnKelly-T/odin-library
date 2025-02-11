@@ -1,6 +1,6 @@
 let myLibrary = new Map();
 
-const itemsContainer = document.querySelector(".items-container");
+const itemsContainer = document.querySelector("#items-container");
 const dialog = document.querySelector("dialog");
 const addButton = document.querySelector("#add-button");
 const modalCancelButton = document.querySelector("#cancel-button");
@@ -22,6 +22,7 @@ const pageIconPath = "./img/page-icon.png";
 let idCount = 0;
 let filterMode = "all";
 let sortMode = "oldest";
+let displayMode = "table";
 
 document.addEventListener("DOMContentLoaded", function() {
     const storedIdCount = localStorage.getItem('idCount');
@@ -147,7 +148,7 @@ function createCard(book, bookId) {
         bookPages.value = book.pages;
 
         dialog.setAttribute("dialog-mode", "edit");
-        dialog.setAttribute("card-id", bookId);
+        dialog.setAttribute("item-id", bookId);
         dialog.showModal();
     });
 
@@ -159,25 +160,140 @@ function createCard(book, bookId) {
     return card;
 }
 
+function createTableRow(book, bookId) {
+    const trow = document.createElement("tr");
+    trow.setAttribute("data-id", bookId);
+
+    const titleData = document.createElement("td");
+    titleData.textContent = book.title;
+
+    const authorData = document.createElement("td");
+    authorData.textContent = book.author;
+
+    const pagesData = document.createElement("td");
+    pagesData.textContent = book.pages;
+
+    const statusData = document.createElement("td");
+    const readStatusLabel = document.createElement("label");
+    readStatusLabel.textContent = "Read";
+    const readStatus = document.createElement("input");
+    readStatus.type = "checkbox";
+    readStatus.name = "book-read-status";
+    readStatus.checked = book.isRead;
+    readStatusLabel.appendChild(readStatus);
+
+    readStatus.addEventListener("change", () => {
+        book.isRead = readStatus.checked;
+        saveToLocalStorage();
+        displayBooks();
+    });
+
+    statusData.appendChild(readStatusLabel);
+
+    const deleteCell = document.createElement("td");
+    const removeButton = document.createElement("button");
+    removeButton.classList.add("table-remove-button");
+
+    removeButton.addEventListener("click", () => {
+        let bookId = Number(trow.getAttribute("data-id"));
+        myLibrary.delete(bookId);
+        displayBooks();
+        saveToLocalStorage();
+    });
+
+    deleteCell.appendChild(removeButton);
+
+    trow.appendChild(titleData);
+    trow.appendChild(authorData);
+    trow.appendChild(pagesData);
+    trow.appendChild(statusData);
+    trow.appendChild(deleteCell);
+
+    trow.addEventListener("click", (e) => {
+        if (e.target !== trow) {
+            return;
+        }
+        let bookId = Number(trow.getAttribute("data-id"));
+        let book = myLibrary.get(bookId);
+
+        modalAction.textContent = "Edit book";
+        bookTitleInput.textContent = book.title;
+        bookAuthorInput.textContent = book.author;
+        bookStatus.value = (book.isRead === true) ? "read" : "not-read";
+        bookPages.value = book.pages;
+
+        dialog.setAttribute("dialog-mode", "edit");
+        dialog.setAttribute("item-id", bookId);
+        dialog.showModal();
+    });
+
+    return trow;
+}
+
+function createTable() {
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    const tableHeadings = ["Title", "Author", "Pages", "Status", ""];
+
+    for (let heading of tableHeadings) {
+        let th = document.createElement("th");
+        th.textContent = heading;
+        thead.appendChild(th);
+    }
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    return table;
+}
+
 function displayBooks() {
     itemsContainer.innerHTML = '';
 
+    if (displayMode === "grid") {
+        itemsContainer.classList.add("grid-view");
 
-    for (let [key, value] of myLibrary) {
+        for (let [key, value] of myLibrary) {
 
-        if (filterMode == "read") {
-            if (!value.isRead) {
-                continue;
+            if (filterMode == "read") {
+                if (!value.isRead) {
+                    continue;
+                }
+            } else if (filterMode == "not-read") {
+                if (value.isRead) {
+                    continue;
+                }
             }
-        } else if (filterMode == "not-read") {
-            if (value.isRead) {
-                continue;
+    
+            let newCard = createCard(value, key);
+            itemsContainer.appendChild(newCard);
+        }
+    }
+
+    if (displayMode === "table") {
+        itemsContainer.classList.remove("grid-view");
+        let table = createTable();
+
+        for (let [key, value] of myLibrary) {
+            if (filterMode == "read") {
+                if (!value.isRead) {
+                    continue;
+                }
+            } else if (filterMode == "not-read") {
+                if (value.isRead) {
+                    continue;
+                }
             }
+
+            let newRow = createTableRow(value, key);
+            table.querySelector("tbody").appendChild(newRow);
         }
 
-        let newCard = createCard(value, key);
-        itemsContainer.appendChild(newCard);
+        itemsContainer.appendChild(table);
     }
+
 }
 
 function sortBooks() {
@@ -259,7 +375,7 @@ form.addEventListener("submit", (e) => {
     if (dialog.getAttribute("dialog-mode") === "add") {
         addBookToLibrary(bookTitleInput.textContent, bookAuthorInput.textContent, bookPages.value, isRead);
     } else {
-        let bookId = Number(dialog.getAttribute("card-id"));
+        let bookId = Number(dialog.getAttribute("item-id"));
         let book = myLibrary.get(bookId);
         book.title = bookTitleInput.textContent;
         book.author = bookAuthorInput.textContent;
