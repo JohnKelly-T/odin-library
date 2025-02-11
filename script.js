@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(myLibrary);
         
     } else {
-        addBookToLibrary("Clean Code", "Robert C. Martin", 464, false);
-        addBookToLibrary("The Pragmatic Programmer", "Andrew Hunt & David Thomas", 352, false);
-        addBookToLibrary("Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", 395, false);
+        addBookToLibrary("Clean Code", "Robert C. Martin", 464, false, new Date(new Date().getTime() + 1000));
+        addBookToLibrary("The Pragmatic Programmer", "Andrew Hunt & David Thomas", 352, false, new Date(new Date().getTime() + 2000));
+        addBookToLibrary("Design Patterns", "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", 395, false, new Date(new Date().getTime() + 3000));
     }
 
     displayBooks();
@@ -68,8 +68,8 @@ function Book(title, author, pages, isRead, dateAdded) {
     }
 }
 
-function addBookToLibrary(title, author, pages, isRead) {
-    myLibrary.set(++idCount, new Book(title, author, pages, isRead, new Date()));
+function addBookToLibrary(title, author, pages, isRead, date = new Date()) {
+    myLibrary.set(++idCount, new Book(title, author, pages, isRead, date));
 }
 
 function createCard(book, bookId) {
