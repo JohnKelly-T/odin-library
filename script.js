@@ -190,10 +190,14 @@ function createTableRow(book, bookId) {
     readStatus.checked = book.isRead;
     readStatusLabel.appendChild(readStatus);
 
-    readStatus.addEventListener("change", () => {
+    readStatus.addEventListener("change", (e) => {
         book.isRead = readStatus.checked;
         saveToLocalStorage();
         displayBooks();
+    });
+
+    statusData.addEventListener("click", (e) => {
+        e.stopPropagation();
     });
 
     statusData.appendChild(readStatusLabel);
@@ -218,9 +222,6 @@ function createTableRow(book, bookId) {
     trow.appendChild(deleteCell);
 
     trow.addEventListener("click", (e) => {
-        if (e.target === readStatus || e.target === deleteCell) {
-            return;
-        }
         let bookId = Number(trow.getAttribute("data-id"));
         let book = myLibrary.get(bookId);
 
