@@ -150,6 +150,7 @@ function createCard(book, bookId) {
 
         modalAction.textContent = "Edit book";
         bookTitleInput.textContent = book.title;
+        moveCaretToEnd(bookTitleInput);
         bookAuthorInput.textContent = book.author;
         bookStatus.value = (book.isRead === true) ? "read" : "not-read";
         bookPages.value = book.pages;
@@ -347,6 +348,16 @@ function saveToLocalStorage() {
     localStorage.setItem('idCount', idCount);
     localStorage.setItem('library', JSON.stringify(Array.from(myLibrary)));
 }
+
+function moveCaretToEnd(contentEditableElement) {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.setStart(contentEditableElement, contentEditableElement.childNodes.length);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+};
+
 
 form.addEventListener("submit", (e) => {
     // prevent page reload
