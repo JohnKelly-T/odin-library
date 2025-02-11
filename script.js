@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", function() {
             JSON.parse(storedLibrary).map(([key, value]) => [key, { ...value, dateAdded: new Date(value.dateAdded) }])
         );
         console.log(myLibrary);
-        displayBooks();
+        
     }
 
-    sortBooks();
+    displayBooks();
 
 
 });
@@ -255,6 +255,8 @@ function createTable() {
 function displayBooks() {
     itemsContainer.innerHTML = '';
 
+    sortBooks();
+
     if (displayMode === "card") {
         itemsContainer.classList.add("card-view-container");
 
@@ -297,6 +299,7 @@ function displayBooks() {
         itemsContainer.appendChild(table);
     }
 
+    
 }
 
 function sortBooks() {
@@ -318,8 +321,6 @@ function sortBooks() {
             Array.from(myLibrary.entries()).sort((a, b) => b[1].title.localeCompare(a[1].title))
         );
     }
-
-    displayBooks();
 }
 
 function addErrorMessage(message) {
@@ -397,7 +398,6 @@ filterOptions.addEventListener("change", () => {
 
 sortOptions.addEventListener("change", () => {
     sortMode = sortOptions.value;
-    sortBooks();
     displayBooks();
 });
 
