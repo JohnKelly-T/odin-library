@@ -16,8 +16,8 @@ const listViewButton = document.querySelector("#list-view");
 const modalAction = document.querySelector(".modal-action");
 const bookTitleInput = document.querySelector("form .book-title-input");
 const bookAuthorInput = document.querySelector("form .book-author-input");
-const bookStatus = document.querySelector("form [name='book-status'");
-const bookPages = document.querySelector("form [name='book-pages'");
+const bookStatus = document.querySelector("form [name='book-status']");
+const bookPages = document.querySelector("form [name='book-pages']");
 const errorDiv = document.querySelector("#error-div");
 
 const pageIconPath = "./img/page-icon.png";
