@@ -60,12 +60,6 @@ function Book(title, author, pages, isRead, dateAdded) {
     this.pages = pages;
     this.isRead = isRead;
     this.dateAdded = dateAdded;
-
-    this.info = () => {
-        let isReadMessage = isRead ? "read" : "not read yet";
-
-        return `${title} by ${author}, ${pages} pages, ${isReadMessage}`;
-    }
 }
 
 function addBookToLibrary(title, author, pages, isRead, date = new Date()) {
