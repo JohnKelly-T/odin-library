@@ -30,7 +30,6 @@ let displayMode = "card";
 document.addEventListener("DOMContentLoaded", function() {
     const storedIdCount = localStorage.getItem('idCount');
     const storedLibrary = localStorage.getItem('library');
-    const storedfilterMode = localStorage.getItem('filterMode');
 
     if (storedIdCount) {
         idCount = storedIdCount;
