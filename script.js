@@ -54,12 +54,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-function Book(title, author, pages, isRead, dateAdded) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.isRead = isRead;
-    this.dateAdded = dateAdded;
+class Book {
+    constructor(title, author, pages, isRead, dateAdded) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isRead = isRead;
+        this.dateAdded = dateAdded;
+    }
 }
 
 function addBookToLibrary(title, author, pages, isRead, date = new Date()) {
