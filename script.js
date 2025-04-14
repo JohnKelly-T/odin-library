@@ -14,7 +14,9 @@ const cardViewButton = document.querySelector("#card-view");
 const listViewButton = document.querySelector("#list-view");
 
 const modalAction = document.querySelector(".modal-action");
+const bookTitle = document.querySelector("#book-title");
 const bookTitleInput = document.querySelector("form .book-title-input");
+const bookAuthor = document.querySelector("#book-author");
 const bookAuthorInput = document.querySelector("form .book-author-input");
 const bookStatus = document.querySelector("form [name='book-status']");
 const bookPages = document.querySelector("form [name='book-pages']");
@@ -358,6 +360,19 @@ function moveCaretToEnd(contentEditableElement) {
     selection.addRange(range);
 };
 
+
+bookTitleInput.addEventListener("blur", (e) => {
+    bookTitle.setAttribute("value", bookTitleInput.textContent);
+    
+    bookTitle.dispatchEvent(new Event('change', { bubbles: true }));
+});
+
+bookTitle.addEventListener("change", (e) => {
+    if (bookTitle.validity.valueMissing) {
+        bookTitle.setCustomValidity("Value required");
+        bookTitle.reportValidity();
+    }
+});
 
 form.addEventListener("submit", (e) => {
     // prevent page reload
