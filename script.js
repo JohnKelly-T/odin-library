@@ -386,6 +386,13 @@ bookAuthor.addEventListener("change", (e) => {
     }
 });
 
+bookPages.addEventListener("change", (e) => {
+    if (bookPages.validity.valueMissing) {
+        bookPages.setCustomValidity("Please enter number of book pages");
+        bookPages.reportValidity();
+    }
+})
+
 form.addEventListener("submit", (e) => {
     // prevent page reload
     e.preventDefault();
