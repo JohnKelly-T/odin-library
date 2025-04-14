@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Odin Library Project</title>
 
-    <link rel="stylesheet" href="./reset.css">
-    <link rel="stylesheet" href="./style.css">
-    <link rel="shortcut icon" href="./img/MyLibrary.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="./img/MyLibrary.ico" type="image/x-icon" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet" />
 
     <script src="./script.js" defer></script>
   </head>
@@ -19,7 +21,7 @@
   <body>
     <div class="main-container">
       <div class="logo-container">
-        <img src="./img/library-logo.png" alt="site-logo" class="logo">
+        <img src="./img/library-logo.png" alt="site-logo" class="logo" />
         <span class="site-name">MyLibrary</span>
       </div>
 
@@ -42,14 +44,30 @@
           <option value="a-z">A-Z</option>
           <option value="z-a">Z-A</option>
         </select>
-
       </div>
 
       <div id="items-container"></div>
 
       <footer>
-        <p>Created by <a id="credits-github-link" href="https://github.com/JohnKelly-T">John Kelly<img src="./img/github.png"></a></p>
-        <div> Logo made by <a href="https://www.flaticon.com/authors/improstudio" title="improstudio"> improstudio </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+        <p>
+          Created by
+          <a id="credits-github-link" href="https://github.com/JohnKelly-T">
+            John Kelly
+            <img src="./img/github.png" />
+          </a>
+        </p>
+        <div>
+          Logo made by
+          <a
+            href="https://www.flaticon.com/authors/improstudio"
+            title="improstudio">
+            improstudio
+          </a>
+          from
+          <a href="https://www.flaticon.com/" title="Flaticon">
+            www.flaticon.com'
+          </a>
+        </div>
       </footer>
     </div>
 
@@ -59,20 +77,44 @@
       <form action="">
         <span class="modal-action">+ Add new book</span>
 
-        <input type="hidden" name="book-title" placeholder="Book Title">
+        <div class="title-input-container">
+          <input
+            class="hidden"
+            id="book-title"
+            name="book-title"
+            placeholder="Book Title"
+            required />
+          <div
+            class="book-title-input"
+            spellcheck="false"
+            contenteditable="true"
+            data-text="Book title"></div>
+        </div>
 
-        <div class="book-title-input" spellcheck="false" contentEditable="true" data-text="Book title"></div>
-        <label>
+        <div class="author-input-container">
           by
-          <div class="book-author-input" data-text="Book Author" contenteditable="true"></div>
-          <input type="hidden" name="book-author" placeholder="Author">
-        </label>
+          <div
+            class="book-author-input"
+            data-text="Book Author"
+            contenteditable="true"></div>
+          <input
+            id="book-author"
+            class="hidden"
+            name="book-author"
+            placeholder="Author"
+            required />
+        </div>
 
         <label>
           number of pages:
-          <input type="number" name="book-pages" min="1" placeholder="Pages">
+          <input
+            type="number"
+            name="book-pages"
+            min="1"
+            placeholder="Pages"
+            required />
         </label>
-        
+
         <label>
           status:
           <select name="book-status">
@@ -87,7 +129,6 @@
           <button type="button" id="cancel-button">cancel</button>
           <button type="submit" id="save-button">save</button>
         </div>
-
       </form>
     </dialog>
   </body>
