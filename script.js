@@ -397,30 +397,6 @@ form.addEventListener("submit", (e) => {
     // prevent page reload
     e.preventDefault();
 
-    errorDiv.innerHTML = "";
-
-    let isValid = true;
-
-    // validation 
-    if (bookTitleInput.textContent === "") {
-        isValid = false;
-        addErrorMessage("* Please enter the book's title");
-    }
-
-    if (bookAuthorInput.textContent === "") {
-        isValid = false;
-        addErrorMessage("* Please enter the book's author");
-    }
-
-    if (bookPages.value === "") {
-        isValid = false;
-        addErrorMessage("* Please enter the number of pages in the book");
-    }
-
-    if (!isValid) {
-        return false;
-    }
-
     let isRead = (bookStatus.value === "read") ? true : false;
 
     if (dialog.getAttribute("dialog-mode") === "add") {
