@@ -369,8 +369,20 @@ bookTitleInput.addEventListener("blur", (e) => {
 
 bookTitle.addEventListener("change", (e) => {
     if (bookTitle.validity.valueMissing) {
-        bookTitle.setCustomValidity("Value required");
+        bookTitle.setCustomValidity("Please enter book's title");
         bookTitle.reportValidity();
+    }
+});
+
+bookAuthorInput.addEventListener("blur", (e) => {
+    bookAuthor.setAttribute("value", bookTitleInput.textContent);
+    bookAuthor.dispatchEvent(new Event('change', { bubbles: true }));
+});
+
+bookAuthor.addEventListener("change", (e) => {
+    if (bookAuthor.validity.valueMissing) {
+        bookAuthor.setCustomValidity("Please enter book's author");
+        bookAuthor.reportValidity();
     }
 });
 
